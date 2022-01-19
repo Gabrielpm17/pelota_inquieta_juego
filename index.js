@@ -6,14 +6,14 @@ const d = document,
   $interfazPrincipal = d.querySelector(".interfaz-principal"),
   $tituloVenta = d.querySelector(".ventana-principal-titulo"),
   $puntosFinal = d.querySelector(".puntos-final"),
-  $btnInicio = d.querySelector(".btn-iniciar"),
-  tiempo = new Date().getTime();
+  $btnInicio = d.querySelector(".btn-iniciar");
 
 // -----Variables-----
 let x = 0,
   y = 0,
   points = 0,
-  setStop;
+  setStop,
+  segundos = 20;
 
 // ---Funcion para el movimiento de la pelota----
 const moveBall = () => {
@@ -24,10 +24,9 @@ const moveBall = () => {
 
 // ----Cronometro----
 const countDown = () => {
-  const tiempoReal = new Date().getTime(),
-    resta = Math.floor((tiempoReal - tiempo) / 1000);
+  segundos--;
 
-  if (resta > 20) {
+  if (segundos <= 0) {
     $interfazPrincipal.classList.remove("hidden");
     $btnInicio.classList.add("reiniciar");
     clearInterval(setStop);
@@ -36,7 +35,7 @@ const countDown = () => {
     $btnInicio.textContent = "reiniciar";
   }
 
-  $countDown.textContent = resta;
+  $countDown.textContent = segundos;
 };
 
 // ----Interaccion con la pelota-----
@@ -51,7 +50,6 @@ d.addEventListener("click", (e) => {
     $interfazPrincipal.classList.add("hidden");
 
     setInterval(() => {
-      console.log("cococ");
       moveBall();
     }, 1000);
     setStop = setInterval(() => {
@@ -64,6 +62,7 @@ d.addEventListener("click", (e) => {
   }
 
   if (e.target.matches(".reiniciar")) {
+    segundos = 0;
     location.reload();
   }
 });
